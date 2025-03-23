@@ -1,0 +1,34 @@
+.TH "exec::options" 3 "libexec" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+exec::options \- Arguments passed to the executor\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <exec\&.hpp>\fP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "const \fBcapture\fP & \fBcap\fP = \fBNONE\fP"
+.br
+.RI "The capture policy\&. "
+.ti -1c
+.RI "const std::string & \fBin\fP = ''"
+.br
+.RI "Any STDIN to be fed into the child process\&. "
+.ti -1c
+.RI "const bool & \fBverbose\fP = false"
+.br
+.RI "Whether to be verbose (IE printing the command to STDOUT)\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+Arguments passed to the executor\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for libexec from the source code\&.

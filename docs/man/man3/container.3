@@ -1,0 +1,168 @@
+.TH "container" 3 "libexec" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+container \- The namespace containing operations related to sets and vectors, primarily splitting\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "bool \fBcontains\fP (const char &v, const char &d)"
+.br
+.RI "A compatability overload to check if a given character is contained in a single or multiple delimeters\&. "
+.ti -1c
+.RI "bool \fBcontains\fP (const char &v, const std::string_view &d)"
+.br
+.RI "A compatability overload to check if a given character is contained in a single or multiple delimeters\&. "
+.ti -1c
+.RI "void \fBemplace\fP (std::set< std::string > &working, const std::string_view &val)"
+.br
+.RI "A compatability overload to emplace a value into either a vector or set\&. "
+.ti -1c
+.RI "void \fBemplace\fP (std::vector< std::string > &working, const std::string_view &val)"
+.br
+.RI "A compatability overload to emplace a value into either a vector or set\&. "
+.ti -1c
+.RI "template<typename C, typename T> void \fBsplit\fP (C &working, const std::string_view &str, const T &delim, const bool &escape=false)"
+.br
+.RI "Split a string on a delimieter(s) "
+.ti -1c
+.RI "template<class T, class A, class \&.\&.\&. Args> T \fBinit\fP (A &&fun, Args &&\&.\&.\&. args)"
+.br
+.RI "Compose a return value from an accumulator function\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+The namespace containing operations related to sets and vectors, primarily splitting\&. 
+.SH "Function Documentation"
+.PP 
+.SS "bool container::contains (const char & v, const char & d)\fR [inline]\fP"
+
+.PP
+A compatability overload to check if a given character is contained in a single or multiple delimeters\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIv\fP The character to check\&. 
+.br
+\fId\fP The single delimiter to check\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+: Whether v is equal to d\&. 
+.RE
+.PP
+
+.SS "bool container::contains (const char & v, const std::string_view & d)\fR [inline]\fP"
+
+.PP
+A compatability overload to check if a given character is contained in a single or multiple delimeters\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIv\fP The character to check\&. 
+.br
+\fId\fP The collection of delimiters to check against 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+: Whether v is contained within d\&. 
+.RE
+.PP
+
+.SS "void container::emplace (std::set< std::string > & working, const std::string_view & val)\fR [inline]\fP"
+
+.PP
+A compatability overload to emplace a value into either a vector or set\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIworking\fP The set to emplace into\&. 
+.br
+\fIval\fP The value to emplace\&. 
+.RE
+.PP
+\fBNote\fP
+.RS 4
+This performs working\&.emplace(val)\&. 
+.RE
+.PP
+
+.SS "void container::emplace (std::vector< std::string > & working, const std::string_view & val)\fR [inline]\fP"
+
+.PP
+A compatability overload to emplace a value into either a vector or set\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIworking\fP The vector to emplace into\&. 
+.br
+\fIval\fP The value to emplace\&. 
+.RE
+.PP
+\fBNote\fP
+.RS 4
+This performs working\&.emplace_back(val)\&. 
+.RE
+.PP
+
+.SS "template<class T, class A, class \&.\&.\&. Args> T container::init (A && fun, Args &&\&.\&.\&. args)"
+
+.PP
+Compose a return value from an accumulator function\&. 
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIT\fP The return type (IE the accumulator type)\&. 
+.br
+\fIA\fP The function to wrap\&. 
+.br
+\fI\&.\&.\&.Args\fP Additional arguments to the function\&. 
+.RE
+.PP
+\fBParameters\fP
+.RS 4
+\fIfun\fP The function\&. 
+.br
+\fIargs\fP Additional arguments\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+The accumulated results from the function\&. 
+.RE
+.PP
+
+.SS "template<typename C, typename T> void container::split (C & working, const std::string_view & str, const T & delim, const bool & escape = \fRfalse\fP)"
+
+.PP
+Split a string on a delimieter(s) 
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIC\fP The accumulator container type, either a vector or set\&. 
+.br
+\fIT\fP The delimiter type, can either be a single character, or a string of characters\&. 
+.RE
+.PP
+\fBParameters\fP
+.RS 4
+\fIworking\fP The accumulator\&. 
+.br
+\fIstr\fP The string to split\&. 
+.br
+\fIdelim\fP The delimiter to split on 
+.br
+\fIescape\fP Ignore delimiters bound in quotes\&. 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for libexec from the source code\&.

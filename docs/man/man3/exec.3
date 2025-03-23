@@ -1,0 +1,357 @@
+.TH "exec" 3 "libexec" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+exec \- The namespace pertaining to program execution and output parsing\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fBoptions\fP"
+.br
+.RI "Arguments passed to the executor\&. "
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef struct exec::options \fBoptions\fP"
+.br
+.RI "Arguments passed to the executor\&. "
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBcapture\fP { \fBNONE\fP, \fBSTDOUT\fP, \fBSTDERR\fP, \fBALL\fP }"
+.br
+.RI "Policy for the executor, describing what should be captured\&. "
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBwait_for\fP (const int &fd, const int &pid=\-1)"
+.br
+.RI "A Blocking Parser that waits for the PID to exit\&. "
+.ti -1c
+.RI "int \fBget_pid\fP (const int &fd, const int &pid=\-1)"
+.br
+.RI "A Non-Blocking Parser that returns the PID\&. "
+.ti -1c
+.RI "std::vector< std::string > \fBvectorize\fP (const int &fd, const int &pid=\-1)"
+.br
+.RI "A Blocking Parser that splits the output into a vector\&. "
+.ti -1c
+.RI "std::set< std::string > \fBsetorize\fP (const int &fd, const int &pid=\-1)"
+.br
+.RI "A Blocking Parser that splits the output into a set\&. "
+.ti -1c
+.RI "std::string \fBdump\fP (const int &fd, const int &pid=\-1)"
+.br
+.RI "A Blocking Parser that returns the output in a single string\&. "
+.ti -1c
+.RI "std::string \fBone_line\fP (const int &fd, const int &pid=\-1)"
+.br
+.RI "A Blocking Parser that returns the first line of output\&. "
+.ti -1c
+.RI "template<class T = std::initializer_list<std::string_view>> std::vector< const char * > \fBzip\fP (const T &cmd, const bool &verbose=false)"
+.br
+.RI "Zip a container\&. "
+.ti -1c
+.RI "template<uint_fast8_t count> std::string \fBhead\fP (const int &fd, const int &pid)"
+.br
+.RI "A Blocking Parser that returns the first count of the output\&. "
+.ti -1c
+.RI "template<class C, char delim, bool escape = false> C \fBfd_splitter\fP (const int &fd, const int &pid)"
+.br
+.RI "Split the contents of an FD\&. "
+.ti -1c
+.RI "template<class R = void, class T = std::initializer_list<std::string_view>> R \fBexecute\fP (const T &cmd, const std::function< R(const int &, const int &)> &parser=[](const int &fd, const int &pid) {close(fd);}, const \fBoptions\fP &opts={})"
+.br
+.RI "Execute a command\&. "
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "constexpr uint_fast16_t \fBbuffer_size\fP = 1024"
+.br
+.RI "The buffer size used for reading\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+The namespace pertaining to program execution and output parsing\&. 
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBexec::capture\fP"
+
+.PP
+Policy for the executor, describing what should be captured\&. 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\f(BINONE \fP
+Do no capture any output\&. 
+.TP
+\f(BISTDOUT \fP
+Capture STDOUT\&. 
+.TP
+\f(BISTDERR \fP
+Capture STDERR\&. 
+.TP
+\f(BIALL \fP
+Capture both STDOUT and STDERR into one stream\&. 
+.SH "Function Documentation"
+.PP 
+.SS "std::string exec::dump (const int & fd, const int & pid = \fR\-1\fP)"
+
+.PP
+A Blocking Parser that returns the output in a single string\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIfd\fP The FD on the attached pipe\&. 
+.br
+\fIpid\fP The PID of the process\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+: The output 
+.RE
+.PP
+\fBWarning\fP
+.RS 4
+This parser is blocking\&. 
+.RE
+.PP
+
+.SS "template<class R = void, class T = std::initializer_list<std::string_view>> R exec::execute (const T & cmd, const std::function< R(const int &, const int &)> & parser = \fR[](const int& fd, const int& pid) {close(fd);}\fP, const \fBoptions\fP & opts = \fR{}\fP)"
+
+.PP
+Execute a command\&. 
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIR\fP What to return from the child\&. 
+.br
+\fIT\fP The container holding the command\&. 
+.RE
+.PP
+\fBParameters\fP
+.RS 4
+\fIcmd\fP The command to run\&. 
+.br
+\fIparser\fP The parser to use on the output\&. 
+.br
+\fIopts\fP Additional options\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+The selected output from the parser\&. 
+.RE
+.PP
+
+.SS "template<class C, char delim, bool escape = false> C exec::fd_splitter (const int & fd, const int & pid)"
+
+.PP
+Split the contents of an FD\&. 
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIC\fP The container to return\&. 
+.br
+\fIdelim\fP The delimiter to use\&. 
+.RE
+.PP
+\fBParameters\fP
+.RS 4
+\fIfd\fP The FD of the file/process\&. 
+.br
+\fIpid\fP The PID of the process\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+The split output/contents\&. 
+.RE
+.PP
+
+.SS "int exec::get_pid (const int & fd, const int & pid = \fR\-1\fP)"
+
+.PP
+A Non-Blocking Parser that returns the PID\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIfd\fP The FD on the attached pipe\&. 
+.br
+\fIpid\fP The PID of the process\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+: The PID 
+.RE
+.PP
+
+.SS "template<uint_fast8_t count> std::string exec::head (const int & fd, const int & pid)"
+
+.PP
+A Blocking Parser that returns the first count of the output\&. 
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIcount\fP The amount of characters to return\&. 
+.RE
+.PP
+\fBParameters\fP
+.RS 4
+\fIfd\fP The FD on the attached pipe\&. 
+.br
+\fIpid\fP The PID of the process\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+: The output\&. 
+.RE
+.PP
+\fBWarning\fP
+.RS 4
+This parser is blocking\&. 
+.RE
+.PP
+
+.SS "std::string exec::one_line (const int & fd, const int & pid = \fR\-1\fP)"
+
+.PP
+A Blocking Parser that returns the first line of output\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIfd\fP The FD on the attached pipe\&. 
+.br
+\fIpid\fP The PID of the process\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+: The first line\&. 
+.RE
+.PP
+\fBWarning\fP
+.RS 4
+This parser is blocking\&. 
+.RE
+.PP
+
+.SS "std::set< std::string > exec::setorize (const int & fd, const int & pid = \fR\-1\fP)"
+
+.PP
+A Blocking Parser that splits the output into a set\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIfd\fP The FD on the attached pipe\&. 
+.br
+\fIpid\fP The PID of the process\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+The output, split on spaces\&. 
+.RE
+.PP
+\fBNote\fP
+.RS 4
+If you need to split on something other than ' ', use fd_splitter 
+.RE
+.PP
+\fBWarning\fP
+.RS 4
+This parser is blocking\&. 
+.RE
+.PP
+
+.SS "std::vector< std::string > exec::vectorize (const int & fd, const int & pid = \fR\-1\fP)"
+
+.PP
+A Blocking Parser that splits the output into a vector\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIfd\fP The FD on the attached pipe\&. 
+.br
+\fIpid\fP The PID of the process\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+The output, split on newlines\&. 
+.RE
+.PP
+\fBNote\fP
+.RS 4
+If you need to split on something other than '
+.br
+', use fd_splitter 
+.RE
+.PP
+\fBWarning\fP
+.RS 4
+This parser is blocking\&. 
+.RE
+.PP
+
+.SS "void exec::wait_for (const int & fd, const int & pid = \fR\-1\fP)"
+
+.PP
+A Blocking Parser that waits for the PID to exit\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIfd\fP The FD on the attached pipe\&. 
+.br
+\fIpid\fP The PID of the process\&. 
+.RE
+.PP
+\fBWarning\fP
+.RS 4
+This parser is blocking\&. 
+.RE
+.PP
+
+.SS "template<class T = std::initializer_list<std::string_view>> std::vector< const char * > exec::zip (const T & cmd, const bool & verbose = \fRfalse\fP)"
+
+.PP
+Zip a container\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIcmd\fP The container to zip\&. 
+.br
+\fIverbose\fP Whether to print the zipped the contents\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+The zipped contents\&. 
+.RE
+.PP
+\fBNote\fP
+.RS 4
+This is used to convert a initializer list or vector into a format execve can use\&. 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for libexec from the source code\&.

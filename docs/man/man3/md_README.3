@@ -1,0 +1,46 @@
+.TH "md_README" 3 "libexec" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+md_README \- libexec 
+.PP
+
+
+.PP
+This repository contains a library/header providing three key functions split into separate namespaces:
+
+.PP
+.IP "1." 4
+The \fRexec\fP namespace contains the \fRexecutor\fP function, which runs programs in forked children, reducing the overhead of a \fRpopen\fP call by not creating a shell environment, and supporting both communication \fIto\fP the child process via an explicit input string to be fed into STDIN, and communication \fIfrom\fP the child where STDIN, STDERR, both, or neither streams will be returned\&. The real power of \fRexecutor\fP is that parsing of output is done via \fIParser\fP modules, which need only be functions that accept a FD integer to the output stream, PID integer for the child\&. The builtin parsers include:
+.IP "  1." 6
+\fRwait_for\fP, which discards the output and merely blocks until the child has finished\&.
+.IP "  2." 6
+\fRget_pid\fP, which returns the PID of the child in a non-blocking manner, discarding child output\&.
+.IP "  3." 6
+\fRvectorize\fP, which blocks and splits the output on newlines into a \fRstd::vector<std::string>\fP
+.IP "  4." 6
+\fRsetorize\fP, which blocks and splits the output on whitespace into a \fRstd::set<std::vector>\fP
+.IP "  5." 6
+\fRdump\fP, which blocks and returns the output as a single \fRstd::string\fP
+.IP "  6." 6
+\fRone_line\fP, which blocks and returns the first line of output\&.
+.IP "  7." 6
+\fRhead\fP, which returns a fixed amount of bytes from the output\&.
+.IP "  8." 6
+\fRfd_splitter\fP, which returns either a set, or vector, that can be split on either a single character or collection of characters via a string\&.
+.PP
+
+.IP "2." 4
+The \fRfile\fP namespace contains the \fRparse\fP function, which reads a file, but uses the same parsers as \fRexec::executor\fP, merely sending a \fR-1\fP for the PID\&.
+.IP "3." 4
+The \fRcontainer\fP namespace includes functions principally for \fRsplitter\fP, which splits either a set or vector on either a single or multiple delimiters specified by a \fRchar\fP or \fRstd::string\fP respectively\&. It has been designed as an accumulator function, but an \fRinit\fP function can return a value if such an accumulator does not exist\&.
+.PP
+
+.PP
+The purpose of the library is to efficiently parse command output and files while accommodating the needs for various programs\&. It was originally created as part of another project, \fRSB\fP, but has been broken off to be used in other capacities\&.
+.SH "Usage"
+.PP
+You can either use this repository as a submodule, and merely add the \fRexec\&.cpp\fP file to your build system, or use the provided Makefile to compile a shared library that you can link against via \fR-lexec\fP\&. A PKGBUILD for Arch-based distributions can be used for the latter\&.
+
+.PP
+Documentation, both in man format and doxygen, is available in the \fRdocs\fP folder\&. 
