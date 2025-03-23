@@ -29,7 +29,7 @@ package() {
   install -Dm644 "src/exec.hpp" "$pkgdir/usr/include/exec.hpp"
   install -Dm644 "LICENSE" "$pkgdir/usr/share/licenses/libexec/LICENSE"
 
-  for page in $srcdir/sb/cpp/docs/man/man3/*; do
+  for page in $srcdir/libexec/docs/man/man3/*; do
     gzip $page
     install -Dm644 "$page.gz" "$pkgdir/usr/share/man/man3/libexec.$(basename $page).gz"
   done
