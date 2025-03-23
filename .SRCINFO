@@ -1,0 +1,15 @@
+pkgbase = libexec-git
+	pkgdesc = Execute Programs
+	pkgver = r397.606cc82
+	pkgrel = 1
+	arch = any
+	makedepends = git
+	makedepends = lld
+	makedepends = clang
+	makedepends = doxygen
+	provides = libexec
+	conflicts = libexec
+	source = git+https://github.com/kkernick/libexec.git
+	b2sums = SKIP
+
+pkgname = libexec-git
