@@ -55,7 +55,7 @@ namespace container {
     // Ignore our delim if its contained within quotes.
     bool wrapped = false;
     for (size_t r_bound = 0, l_bound = 0; r_bound <= str.length(); ++r_bound) {
-      if (!wrapped && (contains(str[r_bound], delim) || r_bound == str.length())) {
+      if (!wrapped && (r_bound == str.length() || contains(str[r_bound], delim))) {
         if (r_bound != l_bound) emplace(working, std::string_view(&str[l_bound], r_bound - l_bound));
         l_bound = r_bound + 1;
       }

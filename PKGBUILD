@@ -1,6 +1,6 @@
 pkgname=libexec-git
 pkgdesc="Execute Programs"
-pkgver=r4.3a94eed
+pkgver=r5.42e8dff
 pkgrel=1
 
 source=("git+https://github.com/kkernick/libexec.git")
